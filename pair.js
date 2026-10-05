@@ -17,13 +17,14 @@ const {
   default: makeWASocket,
   useMultiFileAuthState,
   delay,
+  const {
   getContentType,
   makeCacheableSignalKeyStore,
   Browsers,
   jidNormalizedUser,
   downloadContentFromMessage,
   DisconnectReason
-} = require('baileys');
+} = require('@whiskeysockets/baileys');
 
 // ---------------- CONFIG ----------------
 
@@ -32,7 +33,8 @@ const BOT_NAME_FANCY = '𝐐𝚄𝙴𝙴𝙽 𝐀𝚂𝙷𝙸 𝐌𝙳 𝐋𝙸�
 const config = {
   AUTO_VIEW_STATUS: 'true',
   AUTO_LIKE_STATUS: 'true',
-  AUTO_RECORDING: 'false',
+  AUTO_RECORDING: 'false'
+};
   AUTO_LIKE_EMOJI: ['❤️‍🩹','🖤','👍','🍻','🎀','🤍','♥','🪬','✨','👏','👻'],
   PREFIX: '.',
   MAX_RETRIES: 3,
