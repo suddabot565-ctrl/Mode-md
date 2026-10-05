@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUEEN ASHI MD MINI BOT</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+  color:#00aaff;
+}
+
+body{
+  height:100vh;
+  overflow:hidden;
+  background:#000;
+}
+
+/* ===== Center ===== */
+.container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+/* ===== Box ===== */
+.box{
+  width:330px;
+  padding:25px;
+  background:rgba(0,0,0,0.85);
+  border-radius:15px;
+  text-align:center;
+  position:relative;
+  border:2px solid #00aaff;
+  box-shadow:0 0 20px #00aaff;
+}
+
+/* Title */
+.rgb-text{
+  font-size:22px;
+  font-weight:bold;
+  color:#00aaff;
+  text-shadow:0 0 10px #00aaff;
+}
+
+h6{
+  margin-top:8px;
+}
+
+/* Input */
+.input-container{
+  display:flex;
+  margin-top:15px;
+}
+
+.input-container input{
+  width:70%;
+  height:45px;
+  border:1px solid #00aaff;
+  background:#000;
+  color:#00aaff;
+  outline:none;
+  border-radius:10px 0 0 10px;
+  padding-left:10px;
+  font-size:16px;
+}
+
+.input-container button{
+  width:30%;
+  height:45px;
+  border:1px solid #00aaff;
+  border-left:none;
+  border-radius:0 10px 10px 0;
+  background:#000;
+  color:#00aaff;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.input-container button:hover{
+  background:#001a33;
+}
+
+/* Music Button */
+.music-btn{
+  position:fixed;
+  right:15px;
+  bottom:25px;
+  background:#000;
+  color:#00aaff;
+  padding:12px 18px;
+  border-radius:30px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 0 15px #00aaff;
+  border:1px solid #00aaff;
+  z-index:10;
+}
+
+.music-btn:hover{
+  background:#001a33;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="box">
+    <i class="fas fa-user-astronaut" style="font-size:24px;"></i>
+
+    <div class="rgb-text">QUEEN ASHI MD MINI BOT</div>
+    <h6>CREATED BY DEV XANZ</h6>
+    <h6><i class="fas fa-bullhorn"></i> Enter your number with country code</h6>
+
+    <div class="input-container">
+      <input type="number" id="number" placeholder="9476xxxxxxx">
+      <button id="submit"><i class="fas fa-paper-plane"></i></button>
+    </div>
+
+    <main id="pair"></main>
+  </div>
+</div>
+
+<audio id="bgMusic" loop>
+  <source src="https://files.catbox.moe/e1umjr.mpeg" type="audio/mp3">
+</audio>
+
+<div class="music-btn" onclick="toggleMusic()" id="musicBtn">
+  <i class="fas fa-play"></i> Play
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+
+<script>
+let a=document.getElementById("pair");
+let b=document.getElementById("submit");
+let c=document.getElementById("number");
+
+let music=document.getElementById("bgMusic");
+let musicBtn=document.getElementById("musicBtn");
+
+function toggleMusic(){
+  if(music.paused){
+    music.play();
+    musicBtn.innerHTML='<i class="fas fa-pause"></i> Pause';
+  }else{
+    music.pause();
+    musicBtn.innerHTML='<i class="fas fa-play"></i> Play';
+  }
+}
+
+async function Copy(){
+  let obj=document.getElementById("copy");
+  await navigator.clipboard.writeText(obj.innerText.replace('CODE: ',''));
+  obj.innerHTML='<i class="fas fa-check"></i> COPIED';
+}
+
+b.addEventListener("click",async(e)=>{
+  e.preventDefault();
+  if(!c.value){
+    a.innerHTML='<span><i class="fas fa-exclamation-circle"></i> Enter your WhatsApp number</span>';
+  }else if(c.value.replace(/[^0-9]/g,"").length<11){
+    a.innerHTML='<span style="color:red"><i class="fas fa-times-circle"></i> Invalid Number</span>';
+  }else{
+    let number=c.value.replace(/[^0-9]/g,"");
+    a.innerHTML='<span><i class="fas fa-spinner fa-spin"></i> Please wait...</span>';
+    let {data}=await axios(`/code?number=${number}`);
+    let code=data.code || "Unavailable";
+    a.innerHTML=`<div id="copy" onclick="Copy()" style="font-weight:bold;cursor:pointer">
+      <i class="fas fa-key"></i> CODE: <span>${code}</span>
+    </div>`;
+  }
+});
+</script>
+
+</body>
+</html>
